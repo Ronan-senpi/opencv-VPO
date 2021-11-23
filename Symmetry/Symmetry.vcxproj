@@ -147,6 +147,29 @@
   <ItemGroup>
     <ClCompile Include="Symmetry.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\a.jpg" />
+    <Image Include="img\b.jpg" />
+    <Image Include="img\c.jpg" />
+    <Image Include="img\d.jpg" />
+    <Image Include="img\e.jpg" />
+    <Image Include="img\f.jpg" />
+    <Image Include="img\g.jpg" />
+    <Image Include="img\h.jpg" />
+    <Image Include="img\i.jpg" />
+    <Image Include="img\j.jpg" />
+    <Image Include="img\k.jpg" />
+    <Image Include="img\l.jpg" />
+    <Image Include="img\m.jpg" />
+    <Image Include="img\n.jpg" />
+    <Image Include="img\o.jpg" />
+    <Image Include="img\p.jpg" />
+    <Image Include="img\test.jpg" />
+    <Image Include="img\test2.jpg" />
+    <Image Include="img\test3.jpg" />
+    <Image Include="img\test3b.jpg" />
+    <Image Include="img\test3c.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

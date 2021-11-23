@@ -19,4 +19,69 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\a.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\b.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\c.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\d.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\e.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\f.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\g.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\h.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\i.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\j.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\k.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\l.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\m.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\n.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\o.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\p.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\test.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\test2.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\test3.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\test3b.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\test3c.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

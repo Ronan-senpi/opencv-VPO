@@ -147,6 +147,36 @@
   <ItemGroup>
     <ClCompile Include="Featuers.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\set1\bleach.jpg" />
+    <Image Include="img\set1\bleach.png" />
+    <Image Include="img\set1\deathnote.jpg" />
+    <Image Include="img\set1\gantz.jpg" />
+    <Image Include="img\set1\naruto.jpg" />
+    <Image Include="img\set1\yakitate.jpg" />
+    <Image Include="img\set2\a.jpg" />
+    <Image Include="img\set2\b.jpg" />
+    <Image Include="img\set2\c.jpg" />
+    <Image Include="img\set2\d.jpg" />
+    <Image Include="img\set2\e.jpg" />
+    <Image Include="img\set2\f.jpg" />
+    <Image Include="img\set2\g.jpg" />
+    <Image Include="img\set2\h.jpg" />
+    <Image Include="img\set2\i.jpg" />
+    <Image Include="img\set2\j.jpg" />
+    <Image Include="img\set2\k.jpg" />
+    <Image Include="img\set2\l.jpg" />
+    <Image Include="img\set2\m.jpg" />
+    <Image Include="img\set2\n.jpg" />
+    <Image Include="img\set2\o.jpg" />
+    <Image Include="img\set2\p.jpg" />
+    <Image Include="img\set2\q.jpg" />
+    <Image Include="img\set2\r.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="img\set1\video.mp4" />
+    <Media Include="img\set2\video.mp4" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

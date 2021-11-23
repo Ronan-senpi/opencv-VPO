@@ -19,4 +19,82 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\set1\bleach.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set1\deathnote.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set1\gantz.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set1\naruto.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set1\yakitate.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\a.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\b.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\c.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\d.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\e.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\f.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\g.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\h.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\i.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\j.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\k.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\l.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\m.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\n.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\o.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\p.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\q.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set2\r.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\set1\bleach.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="img\set1\video.mp4" />
+    <Media Include="img\set2\video.mp4" />
+  </ItemGroup>
 </Project>
