@@ -92,6 +92,9 @@
     <Image Include="img\set1\bleach.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="img\set1\naruto-fliped.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="img\set1\video.mp4" />
