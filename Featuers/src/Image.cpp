@@ -1,6 +1,6 @@
 #include "Image.h"
 #include <filesystem>
-
+#include <numbers> // std::numbers
 void Image::init()
 {
 	color = cv::Scalar(
@@ -18,6 +18,21 @@ void Image::init()
 		corners[3] = cv::Point2f(0, (float)mat.rows);
 	}
 }
+
+
+float Image::getAngleBetween(const cv::Point2f a, const cv::Point2f b, const cv::Point2f c)
+{
+	cv::Point2f ab = { b.x - a.x, b.y - a.y };
+	cv::Point2f cb = { b.x - c.x, b.y - c.y };
+
+	float dot = (ab.x * cb.x + ab.y * cb.y); // dot product
+	float cross = (ab.x * cb.y - ab.y * cb.x); // cross product
+
+	float alpha = atan2(cross, dot);
+
+	return (int)floor(alpha * 180.f / std::numbers::pi + 0.5);
+}
+
 
 void Image::detectAndCompute(const cv::Ptr<cv::ORB>& orb)
 {
@@ -58,15 +73,22 @@ void Image::Clipping(const Image& rightImg,
 		std::vector<cv::Point2f> scene_corners(4);
 		cv::perspectiveTransform(corners, scene_corners, H);
 
-		//Dessine sur le flux vidéo
-		cv::line(outImag, scene_corners[0] ,
-			scene_corners[1] , color, thickness);
-		cv::line(outImag, scene_corners[1] ,
-			scene_corners[2] , color, thickness);
-		cv::line(outImag, scene_corners[2] ,
-			scene_corners[3] , color, thickness);
-		cv::line(outImag, scene_corners[3] ,
-			scene_corners[0] , color, thickness);
+		//Angle
+		auto a1 = std::abs(getAngleBetween(scene_corners[0], scene_corners[1], scene_corners[2]));
+		auto a2 = std::abs(getAngleBetween(scene_corners[2], scene_corners[3], scene_corners[0]));
+		
+		if ((a1 > 80 && a1 < 100) && (a2 > 80 && a2 < 100))
+		{
+			//Dessine sur le flux vidéo
+			cv::line(outImag, scene_corners[0],
+				scene_corners[1], color, thickness);
+			cv::line(outImag, scene_corners[1],
+				scene_corners[2], color, thickness);
+			cv::line(outImag, scene_corners[2],
+				scene_corners[3], color, thickness);
+			cv::line(outImag, scene_corners[3],
+				scene_corners[0], color, thickness);
+		}
 	}
 	//End: Clipping
 }

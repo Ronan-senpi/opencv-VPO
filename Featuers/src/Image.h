@@ -38,5 +38,7 @@ public:
 	static void prepareImgs(const std::string& path,
 		std::vector<Image>& leftImgs,
 		const cv::Ptr<cv::ORB>& orb);
+	static float getAngleBetween(const cv::Point2f a, const cv::Point2f b, const cv::Point2f c);
+
 };
 

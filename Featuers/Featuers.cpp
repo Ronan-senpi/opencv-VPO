@@ -8,7 +8,7 @@
 
 #include "src/Image.h"
 const float DISTANCE_COEF = 0.74f;
-const int MIN_MATCH_COUNT = 9;
+const int MIN_MATCH_COUNT = 7;
 int compare2Img() {
 
 	cv::Mat leftDescriptor, rightDescriptor;
@@ -118,7 +118,7 @@ int compareImgVid(int set = 1) {
 
 int main(int argc, char** argv)
 {
-	//compare2Img();
+   //compare2Img();
 	compareImgVid();
 	return 1;
 }
