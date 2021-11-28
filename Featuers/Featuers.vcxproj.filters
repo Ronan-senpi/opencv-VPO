@@ -18,6 +18,9 @@
     <ClCompile Include="Featuers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="img\set1\bleach.jpg">
@@ -99,5 +102,13 @@
   <ItemGroup>
     <Media Include="img\set1\video.mp4" />
     <Media Include="img\set2\video.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Featuers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
