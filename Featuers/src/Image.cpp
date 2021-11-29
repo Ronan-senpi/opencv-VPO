@@ -77,7 +77,7 @@ void Image::Clipping(const Image& rightImg,
 		auto a1 = std::abs(getAngleBetween(scene_corners[0], scene_corners[1], scene_corners[2]));
 		auto a2 = std::abs(getAngleBetween(scene_corners[2], scene_corners[3], scene_corners[0]));
 		
-		if ((a1 > 80 && a1 < 100) && (a2 > 80 && a2 < 100))
+		if ((a1 > 70 && a1 < 120) && (a2 > 70 && a2 < 120))
 		{
 			//Dessine sur le flux vidéo
 			cv::line(outImag, scene_corners[0],
@@ -96,13 +96,14 @@ void Image::Clipping(const Image& rightImg,
 void Image::prepareImgs(const std::string& path, std::vector<Image>& leftImgs, const cv::Ptr<cv::ORB>& orb)
 {
 	for (const auto& entry : std::filesystem::directory_iterator(path)) {
-		std::cout << entry.path() << std::endl;
+		
 		std::string strPath = entry.path().string();
 		if (strPath.substr(strPath.size() - 3) == "jpg")
 		{
 
 			auto mat = cv::imread(entry.path().string(), cv::IMREAD_GRAYSCALE);
 			if (!mat.empty()) {
+				std::cout << entry.path() << std::endl;
 				leftImgs.push_back(Image(mat, orb));
 			}
 			else

@@ -17,6 +17,7 @@ public:
 		init();
 		detectAndCompute(orb);
 	}
+
 	std::vector<cv::Point2f> corners;
 	cv::Mat mat;
 	std::vector<cv::KeyPoint> keypoints;

@@ -7,8 +7,8 @@
 #include <iostream>
 
 #include "src/Image.h"
-const float DISTANCE_COEF = 0.74f;
-const int MIN_MATCH_COUNT = 7;
+const float DISTANCE_COEF = 0.6f;
+const int MIN_MATCH_COUNT = 5;
 int compare2Img() {
 
 	cv::Mat leftDescriptor, rightDescriptor;
@@ -52,11 +52,7 @@ cv:drawMatches(leftImg, leftKeypoints, rightImg, rightKeypoints, good, knnImg);
 }
 
 
-
-
-
-
-int compareImgVid(int set = 1) {
+int compareImgVid(int set = 2) {
 	auto orb = cv::ORB::create(750);
 	auto bfm = cv::BFMatcher::create();
 
@@ -74,7 +70,7 @@ int compareImgVid(int set = 1) {
 	}
 
 	cv::Mat rightImg;
-	cv::VideoCapture cap("./img/set1/video.mp4");
+	cv::VideoCapture cap("./img/set" + std::to_string(set) + "/video.mp4");
 	if (cap.isOpened() == false)
 	{
 		std::cout << "Cannot open the video file" << std::endl;
