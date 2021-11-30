@@ -1,33 +1,143 @@
 
 #include <opencv2/opencv.hpp>
-
 #include <iostream>
 #include <string>
+#include <vector>
 
-using namespace cv;
-using namespace std;
+cv::Mat prevInput, nextInput;
+std::vector<cv::Point2f> prevPoints, nextPoints;
 
-int main(int argc, char** argv)
+cv::Rect roi;
+cv::Point start(-1, -1);
+std::string windowName = "Antoine je t'aime 8==/==D~";
+
+void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 {
-	// Read the image file
-	Mat image = imread("D:/Médias/Aedrine-Round.png");
-
-	if (image.empty()) // Check for failure
+	if (event == cv::EVENT_LBUTTONDOWN)
 	{
-		cout << "Could not open or find the image" << endl;
-		system("pause"); //wait for any key press
+		start = cv::Point(x, y);
+		roi = cv::Rect();
+		prevPoints.clear();
+		nextPoints.clear();
+	}
+	else if (event == cv::EVENT_MOUSEMOVE)
+	{
+		if (start.x >= 0) {
+			cv::Point end(x, y);
+			roi = cv::Rect(start, end);
+		}
+	}
+	else if (event == cv::EVENT_LBUTTONUP) {
+		cv::Point end(x, y);
+		roi = cv::Rect(start, end);
+		start = cv::Point(-1, -1);
+	}
+}
+void detectPoints(const cv::Mat& nextImg, const int maxCorners = 100, const double qualityLvl = 0.05, const double minDistance = 10)
+{
+	cv::goodFeaturesToTrack(nextImg, prevPoints, maxCorners, qualityLvl, minDistance);
+}
+
+std::vector<cv::Point2f> purgePoint(std::vector<cv::Point2f>& points, std::vector<uchar>& status) {
+	std::vector<cv::Point2f> result;
+	for (size_t i = 0; i < points.size(); i++)
+		if (status[i] > 0)
+			result.push_back(points[i]);
+	return result;
+}
+
+void trackPoints(const int minPoint = 3) {
+
+	std::vector<uchar> status;
+	std::vector<float> err;
+
+
+
+	if (!prevInput.empty()) {
+
+		cv::Mat mask = cv::Mat::zeros(nextInput.size(), CV_8U);
+		cv::rectangle(mask, roi, cv::Scalar(255, 255, 255), -1);
+		cv::Mat maskedNext, maskedPrev;
+		cv::bitwise_and(nextInput, mask, maskedNext);
+		cv::imshow("maskedNext", maskedNext);
+		cv::bitwise_and(prevInput, mask, maskedPrev);
+		cv::imshow("maskedPrev", maskedPrev);
+		prevPoints = nextPoints;
+		if (prevPoints.size() < minPoint)
+			detectPoints(maskedPrev);
+
+		if (prevPoints.size() < minPoint)
+			return;
+
+		cv::calcOpticalFlowPyrLK(maskedPrev, maskedNext, prevPoints, nextPoints, status, err);
+		prevPoints = purgePoint(prevPoints, status);
+		nextPoints = purgePoint(nextPoints, status);
+	}
+	prevInput = nextInput.clone();
+}
+
+void updateRoi() {
+	int maxX = INT_MIN;
+	int maxY = INT_MIN;
+	int minY = INT_MAX;
+	int minX = INT_MAX;
+	for (auto np : nextPoints) {
+		if (np.x > maxX)
+			maxX = np.x;
+		if (np.x < minX)
+			minX = np.x;
+		if (np.y > maxY)
+			maxY = np.y;
+		if (np.y < minY)
+			minY = np.y;
+	}
+	roi = cv::Rect(cv::Point2f(minX, minY),
+					cv::Point2f(maxX, maxY));
+}
+
+int vid()
+{
+	cv::VideoCapture cap("./videos/vid2.mp4");
+	if (cap.isOpened() == false)
+	{
+		std::cout << "Cannot open the video file" << std::endl;
+		std::cin.get(); //wait for any key press
 		return -1;
 	}
 
-	String windowName = "Tracking"; //Name of the window
+	cv::Mat drawImg, beurkImg;
+	while (true)
+	{
+		if (start.x < 0) {
+			if (!cap.read(drawImg))
+				break;
+			cv::cvtColor(drawImg, nextInput, cv::COLOR_RGB2GRAY);
 
-	namedWindow(windowName); // Create a window
+			trackPoints();
+			updateRoi();
+		}
 
-	imshow(windowName, image); // Show our image inside the created window.
+		beurkImg = drawImg.clone();
+		for (auto np : nextPoints)
+			cv::circle(beurkImg, np, 2, cv::Scalar(0, 0, 255), 2);
+		cv::rectangle(beurkImg, roi, cv::Scalar(255, 0, 0), 1);
+		cv::imshow(windowName, beurkImg);
 
-	waitKey(0); // Wait for any keystroke in the window
 
-	destroyWindow(windowName); //destroy the created window
+		if (cv::waitKey(10) == 27)
+		{
+			std::cout << "Esc key is pressed by user. Stoppig the video" << std::endl;
+			break;
+		}
+	}
+	return 0;
+}
+
+int main(int argc, char** argv)
+{
+	cv::namedWindow(windowName);
+	cv::setMouseCallback(windowName, CallBackFunc, NULL);
+	vid();
 
 	return 0;
 }
