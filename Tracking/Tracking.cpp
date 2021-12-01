@@ -7,7 +7,8 @@
 cv::Mat prevInput, nextInput;
 std::vector<cv::Point2f> prevPoints, nextPoints;
 
-cv::Rect roi;
+cv::Point2i roiTopLeft, roiBottomRight;
+cv::Rect roi, originalRoi;
 cv::Point start(-1, -1);
 std::string windowName = "Antoine je t'aime 8==/==D~";
 
@@ -31,6 +32,7 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 		cv::Point end(x, y);
 		roi = cv::Rect(start, end);
 		start = cv::Point(-1, -1);
+		originalRoi = cv::Rect(roi.tl(), roi.br());
 	}
 }
 void detectPoints(const cv::Mat& nextImg, const int maxCorners = 100, const double qualityLvl = 0.05, const double minDistance = 10)
@@ -50,8 +52,6 @@ void trackPoints(const int minPoint = 3) {
 
 	std::vector<uchar> status;
 	std::vector<float> err;
-
-
 
 	if (!prevInput.empty()) {
 
@@ -77,6 +77,18 @@ void trackPoints(const int minPoint = 3) {
 }
 
 void updateRoi() {
+	//if (roi.x > 0) {
+	//	cv::Point2f baricenter(0);
+
+
+	//	for (auto np : nextPoints) {
+	//		baricenter.x += np.x;
+	//		baricenter.y += np.y;
+	//	}
+	//	baricenter.x /= nextPoints.size();
+	//	baricenter.y /= nextPoints.size();
+	//	roi = cv::Rect(originalRoi.x + baricenter.x, originalRoi.x + baricenter.x, originalRoi.width, originalRoi.height);
+	//}
 	int maxX = INT_MIN;
 	int maxY = INT_MIN;
 	int minY = INT_MAX;
@@ -92,7 +104,10 @@ void updateRoi() {
 			minY = np.y;
 	}
 	roi = cv::Rect(cv::Point2f(minX, minY),
-					cv::Point2f(maxX, maxY));
+		cv::Point2f(maxX, maxY));
+	//roi = cv::Rect(cv::Point2f(minX, minY), cv::Point2f(minX+ originalRoi.width, minY+ originalRoi.height));
+	//roi.width = originalRoi.width;
+	//roi.height = originalRoi.width;
 }
 
 int vid()
