@@ -15,7 +15,7 @@ int compare2Img() {
 	std::vector<cv::KeyPoint> leftKeypoints, rightKeypoints;
 
 	cv::Mat leftImg = cv::imread("./img/set1/bleach.jpg");
-	cv::Mat rightImg = cv::imread("./img/set1/bleach.png");
+	cv::Mat rightImg = cv::imread("./img/set1/bleach.jpg");
 
 	auto orb = cv::ORB::create();
 
@@ -24,9 +24,10 @@ int compare2Img() {
 
 	orb->detect(rightImg, rightKeypoints);
 	orb->compute(rightImg, rightKeypoints, rightDescriptor);
-
+	
 	auto bfm = cv::BFMatcher::create();
 	std::vector<std::vector<cv::DMatch>> matches;
+
 	bfm->knnMatch(leftDescriptor, rightDescriptor, matches, 2);
 
 	std::vector<cv::DMatch> good;
@@ -114,8 +115,8 @@ int compareImgVid(int set = 2) {
 
 int main(int argc, char** argv)
 {
-   //compare2Img();
-	compareImgVid();
+   compare2Img();
+	//compareImgVid();
 	return 1;
 }
 

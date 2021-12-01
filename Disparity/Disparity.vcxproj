@@ -147,6 +147,12 @@
   <ItemGroup>
     <ClCompile Include="Disparity.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\set1\image1.jpg" />
+    <Image Include="img\set1\image2.jpg" />
+    <Image Include="img\set2\image1.jpg" />
+    <Image Include="img\set2\image2.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
