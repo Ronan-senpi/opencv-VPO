@@ -15,6 +15,20 @@ std::vector<cv::Point2f> purgePoint(std::vector<cv::Point2f>& points, std::vecto
 	return result;
 }
 
+void rectify(cv::Mat& img1,
+	cv::Mat& img2,
+	std::vector<cv::Point2f>& points1,
+	std::vector<cv::Point2f>& points2,
+	cv::Mat& rectifyImg1,
+	cv::Mat& rectifyImg2) {
+	cv::Mat fMat = cv::findFundamentalMat(points1, points2);
+	cv::Mat h1, h2;
+	if (cv::stereoRectifyUncalibrated(points1, points2, fMat, img1.size(), h1, h2)) {
+		cv::warpPerspective(img1, rectifyImg1, h1, img1.size());
+		cv::warpPerspective(img2, rectifyImg2, h2, img2.size());
+	}
+}
+
 int main(int argc, char** argv)
 {
 	std::vector<uchar> status;
@@ -49,10 +63,18 @@ int main(int argc, char** argv)
 	points1 = purgePoint(points1, status);
 	points2 = purgePoint(points2, status);
 
+	cv::Mat ri1, ri2, recti;
+
+	rectify(image1G, image2G, points1, points2, ri1, ri2);
+
+	std::vector<cv::Mat> rImgs{ ri1, ri2};
+	cv::hconcat(recti, rImgs);
+	cv::imshow("retify", recti);
+	// Display
 	cv::Mat hImg;
 	std::vector<cv::Mat> imgs{ image1, image2 };
 	cv::hconcat(imgs, hImg);
-	
+
 	for (auto p : points1) {
 		cv::circle(hImg, p, 2, cv::Scalar(0, 255, 0), 2);
 	}
@@ -65,13 +87,13 @@ int main(int argc, char** argv)
 	for (size_t i = 0; i < points1.size(); i++)
 	{
 		cv::Point2f p2(image1G.cols + points2[i].x, points2[i].y);
-		cv::line(hImg, points1[i], p2, cv::Scalar(255, 0, 0,100));
+		cv::line(hImg, points1[i], p2, cv::Scalar(255, 0, 0, 100));
 	}
 
 	std::cout << points1.size() << " " << points2.size() << std::endl;
 	cv::imshow("shooooow", hImg); // Show our image inside the created window.
 
-	cv::waitKey(0); 
+	cv::waitKey(0);
 
 	return 0;
 }
