@@ -8,9 +8,9 @@ cv::Mat prevInput, nextInput;
 std::vector<cv::Point2f> prevPoints, nextPoints;
 
 cv::Point2i roiTopLeft, roiBottomRight;
-cv::Rect roi, originalRoi;
+cv::Rect roi;
 cv::Point start(-1, -1);
-std::string windowName = "Antoine je t'aime 8==/==D~";
+std::string windowName = "window";
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 {
@@ -32,12 +32,11 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 		cv::Point end(x, y);
 		roi = cv::Rect(start, end);
 		start = cv::Point(-1, -1);
-		originalRoi = cv::Rect(roi.tl(), roi.br());
 	}
 }
-void detectPoints(const cv::Mat& nextImg, const int maxCorners = 100, const double qualityLvl = 0.05, const double minDistance = 10)
+void detectPoints(const cv::Mat& nextImg, const cv::Mat& mask, const int maxCorners = 100, const double qualityLvl = 0.05, const double minDistance = 10)
 {
-	cv::goodFeaturesToTrack(nextImg, prevPoints, maxCorners, qualityLvl, minDistance);
+	cv::goodFeaturesToTrack(nextImg, prevPoints, maxCorners, qualityLvl, minDistance, mask);
 }
 
 std::vector<cv::Point2f> purgePoint(std::vector<cv::Point2f>& points, std::vector<uchar>& status) {
@@ -57,19 +56,17 @@ void trackPoints(const int minPoint = 3) {
 
 		cv::Mat mask = cv::Mat::zeros(nextInput.size(), CV_8U);
 		cv::rectangle(mask, roi, cv::Scalar(255, 255, 255), -1);
-		cv::Mat maskedNext, maskedPrev;
-		cv::bitwise_and(nextInput, mask, maskedNext);
-		cv::imshow("maskedNext", maskedNext);
-		cv::bitwise_and(prevInput, mask, maskedPrev);
-		cv::imshow("maskedPrev", maskedPrev);
+		cv::imshow("Mask", mask);
+
 		prevPoints = nextPoints;
-		if (prevPoints.size() < minPoint)
-			detectPoints(maskedPrev);
+		if (prevPoints.size() < minPoint) {
+			detectPoints(nextInput, mask);
 
-		if (prevPoints.size() < minPoint)
-			return;
+			if (prevPoints.size() < minPoint)
+				return;
+		}
 
-		cv::calcOpticalFlowPyrLK(maskedPrev, maskedNext, prevPoints, nextPoints, status, err);
+		cv::calcOpticalFlowPyrLK(prevInput, nextInput, prevPoints, nextPoints, status, err);
 		prevPoints = purgePoint(prevPoints, status);
 		nextPoints = purgePoint(nextPoints, status);
 	}
@@ -77,22 +74,12 @@ void trackPoints(const int minPoint = 3) {
 }
 
 void updateRoi() {
-	//if (roi.x > 0) {
-	//	cv::Point2f baricenter(0);
-
-
-	//	for (auto np : nextPoints) {
-	//		baricenter.x += np.x;
-	//		baricenter.y += np.y;
-	//	}
-	//	baricenter.x /= nextPoints.size();
-	//	baricenter.y /= nextPoints.size();
-	//	roi = cv::Rect(originalRoi.x + baricenter.x, originalRoi.x + baricenter.x, originalRoi.width, originalRoi.height);
-	//}
+	
 	int maxX = INT_MIN;
-	int maxY = INT_MIN;
 	int minY = INT_MAX;
 	int minX = INT_MAX;
+	int maxY = INT_MIN;
+
 	for (auto np : nextPoints) {
 		if (np.x > maxX)
 			maxX = np.x;
@@ -103,16 +90,20 @@ void updateRoi() {
 		if (np.y < minY)
 			minY = np.y;
 	}
+
 	roi = cv::Rect(cv::Point2f(minX, minY),
 		cv::Point2f(maxX, maxY));
-	//roi = cv::Rect(cv::Point2f(minX, minY), cv::Point2f(minX+ originalRoi.width, minY+ originalRoi.height));
-	//roi.width = originalRoi.width;
-	//roi.height = originalRoi.width;
+
 }
 
-int vid()
+int vid(const std::string filename = "")
 {
-	cv::VideoCapture cap("./videos/vid2.mp4");
+	cv::VideoCapture cap;
+	if (filename != "")
+		cap.open(filename);
+	else
+		cap.open(0);
+
 	if (cap.isOpened() == false)
 	{
 		std::cout << "Cannot open the video file" << std::endl;
@@ -152,7 +143,7 @@ int main(int argc, char** argv)
 {
 	cv::namedWindow(windowName);
 	cv::setMouseCallback(windowName, CallBackFunc, NULL);
-	vid();
+	vid("./videos/vid2.mp4");
 
 	return 0;
 }
