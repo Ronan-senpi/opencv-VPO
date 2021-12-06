@@ -152,7 +152,9 @@
     <ClInclude Include="src\TImage.h" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="videos\vid1.mp4" />
     <Media Include="videos\vid2.mp4" />
+    <Media Include="videos\vid3.mp4" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

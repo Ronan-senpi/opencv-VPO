@@ -144,6 +144,5 @@ int main(int argc, char** argv)
 	cv::namedWindow(windowName);
 	cv::setMouseCallback(windowName, CallBackFunc, NULL);
 	vid("./videos/vid2.mp4");
-
 	return 0;
 }
