@@ -9,58 +9,16 @@
 #include "src/Image.h"
 const float DISTANCE_COEF = 0.6f;
 const int MIN_MATCH_COUNT = 5;
-int compare2Img() {
-
-	cv::Mat leftDescriptor, rightDescriptor;
-	std::vector<cv::KeyPoint> leftKeypoints, rightKeypoints;
-
-	cv::Mat leftImg = cv::imread("./img/set1/bleach.jpg");
-	cv::Mat rightImg = cv::imread("./img/set1/bleach.jpg");
-
-	auto orb = cv::ORB::create();
-
-	orb->detect(leftImg, leftKeypoints);
-	orb->compute(leftImg, leftKeypoints, leftDescriptor);
-
-	orb->detect(rightImg, rightKeypoints);
-	orb->compute(rightImg, rightKeypoints, rightDescriptor);
-	
-	auto bfm = cv::BFMatcher::create();
-	std::vector<std::vector<cv::DMatch>> matches;
-
-	bfm->knnMatch(leftDescriptor, rightDescriptor, matches, 2);
-
-	std::vector<cv::DMatch> good;
-	for (auto elem : matches) {
-		if (elem[0].distance < DISTANCE_COEF * elem[1].distance) {
-			good.push_back(elem[0]);
-		}
-	}
-
-	cv::Mat knnImg;
-cv:drawMatches(leftImg, leftKeypoints, rightImg, rightKeypoints, good, knnImg);
-
-	//cv::Mat kleftImg;
-	//cv::drawKeypoints(leftImg, leftKeypoints, kleftImg);
-
-	//cv::Mat krightImg;
-	//cv::drawKeypoints(rightImg, rightKeypoints, krightImg);
-
-	//cv::imshow("leftImg", kleftImg);
-	cv::imshow("knnImg", knnImg);
-	cv::waitKey(0);
-	return 0;
-}
-
 
 int compareImgVid(int set = 2) {
-	auto orb = cv::ORB::create(750);
+	auto orbVid = cv::ORB::create(900);
+	auto orbImg = cv::ORB::create(500);
 	auto bfm = cv::BFMatcher::create();
 
 
 	std::string path = "./img/set"+ std::to_string(set)+"/";
 	std::vector<Image> leftImgs;
-	Image::prepareImgs(path, leftImgs, orb);
+	Image::prepareImgs(path, leftImgs, orbImg);
 
 	//return 1;
 	if (leftImgs.empty()) // Check for failure
@@ -90,7 +48,7 @@ int compareImgVid(int set = 2) {
 		}
 		cv::Mat matRightG;
 		cv::cvtColor(rightImg, matRightG, cv::COLOR_RGB2GRAY);
-		Image rightImgG(matRightG, orb);
+		Image rightImgG(matRightG, orbVid);
 
 
 		cv::Mat knnImg(rightImg);
@@ -115,8 +73,8 @@ int compareImgVid(int set = 2) {
 
 int main(int argc, char** argv)
 {
-   compare2Img();
-	//compareImgVid();
+   //compare2Img();
+	compareImgVid();
 	return 1;
 }
 

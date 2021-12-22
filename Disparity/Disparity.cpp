@@ -42,7 +42,7 @@ void computeDisparity(cv::Mat& rImg1, cv::Mat& rImg2, cv::Mat& outDisp) {
 }
 
 const std::string SET_NUMBER = "1";
-const int RESIZE_FACTOR = 3;
+const int RESIZE_FACTOR = 1.5;
 
 int main(int argc, char** argv)
 {
@@ -81,6 +81,7 @@ int main(int argc, char** argv)
 
 	std::vector<cv::Mat> imgs{ image1, image2 };
 	cv::hconcat(imgs, hImg);
+
 	for (auto p : points1) {
 		cv::circle(hImg, p, 2, cv::Scalar(0, 255, 0), 2);
 	}
@@ -88,6 +89,7 @@ int main(int argc, char** argv)
 		cv::Point2f np(image1G.cols + p.x, p.y);
 		cv::circle(hImg, np, 2, cv::Scalar(0, 255, 0), 2);
 	}
+
 	for (size_t i = 0; i < points1.size(); i++)
 	{
 		cv::Point2f p2(image1G.cols + points2[i].x, points2[i].y);

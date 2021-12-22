@@ -102,7 +102,7 @@ int vid(const std::string filename = "")
 	if (filename != "")
 		cap.open(filename);
 	else
-		cap.open(0);
+		cap.open(1);
 
 	if (cap.isOpened() == false)
 	{
@@ -143,6 +143,7 @@ int main(int argc, char** argv)
 {
 	cv::namedWindow(windowName);
 	cv::setMouseCallback(windowName, CallBackFunc, NULL);
-	vid("./videos/vid2.mp4");
+	//vid("./videos/vid2.mp4");
+	vid();
 	return 0;
 }
